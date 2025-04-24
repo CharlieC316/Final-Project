@@ -14,4 +14,20 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 backgroundImage = pygame.image.load("BackgroundImage.jpg")
 
+# Set up screen
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Block Stacking Game")
+clock = pygame.time.Clock()
+
+# Block class
+class Block:
+    def __init__(self, x, y):
+        self.x = x  # grid position
+        self.y = y
+        self.color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
+
+   
+    
+
+
 pygame.quit()
