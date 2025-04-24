@@ -26,6 +26,9 @@ class Block:
         self.y = y
         self.color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
    
     
 
