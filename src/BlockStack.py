@@ -34,6 +34,10 @@ class Block:
         pygame.draw.rect(surface, self.color, 
                          (self.x * BLOCK_SIZE, self.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
     
-
+# Game variables
+fall_time = 0
+fall_speed = 0.5  # blocks fall every 0.5 seconds
+current_block = Block(5, 0)
+grid = []
 
 pygame.quit()
