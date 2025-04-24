@@ -29,7 +29,10 @@ class Block:
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
-   
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, 
+                         (self.x * BLOCK_SIZE, self.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
     
 
 
