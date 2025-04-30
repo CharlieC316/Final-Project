@@ -1,5 +1,6 @@
 import pygame
 import random
+import sys
 
 # Initialize pygame
 pygame.init()
@@ -7,7 +8,10 @@ pygame.init()
 # Constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 300, 600
 BLOCK_SIZE = 30
+GRID_WIDTH = SCREEN_WIDTH // BLOCK_SIZE
 FPS = 60
+rotateBreak = 0
+
 
 # Colors & Textures
 white = (255, 255, 255)
@@ -18,7 +22,18 @@ backgroundImage = pygame.image.load("BackgroundImage.jpg")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Block Stacking Game")
 clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 20)
 
+# Block shapes (offsets from the center)
+SHAPES = {
+    1: [(0, 0), (1, 0), (2, 0), (-1, 0)],      # I-shape
+    2: [(0, 0), (0, 1), (1, 0), (1, 1)],       # O-shape
+    3: [(0, 0), (-1, 0), (1, 0), (0, 1)],      # T-shape
+    4: [(0, 0), (-1, 0), (0, 1), (1, 1)],      # S-shape
+    5: [(0, 0), (1, 0), (0, 1), (-1, 1)],      # Z-shape
+    6: [(0, 0), (-1, 0), (1, 0), (1, 1)],      # L-shape
+    7: [(0, 0), (1, 0), (-1, 0), (-1, 1)],     # J-shape
+}
 # Block class
 class Block:
     def __init__(self, x, y):
