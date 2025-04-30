@@ -80,9 +80,20 @@ class Block:
 
 # Game variables
 fall_time = 0
-fall_speed = 0.5  # blocks fall every 0.5 seconds
-current_block = Block(5, 0)
+fall_speed = 500  # milliseconds
+current_block = Block(GRID_WIDTH // 2, 0)
 grid = []
+score = 0
+camera_offset = 0
+
+# Game loop
+running = True
+while running:
+    time_passed = clock.tick(FPS)
+    fall_time += time_passed
+    rotateBreak -= 1
+
+    screen.blit(backgroundImage, (0, 0))
 
 
 # Main game loop
