@@ -95,6 +95,25 @@ while running:
 
     screen.blit(backgroundImage, (0, 0))
 
+  # Input handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        if not check_collision(current_block, dx=-1):
+            current_block.move(-1, 0)
+    if keys[pygame.K_RIGHT]:
+        if not check_collision(current_block, dx=1):
+            current_block.move(1, 0)
+    if keys[pygame.K_UP] and rotateBreak == 0:
+        current_block.rotate()
+        rotateBreak = 60
+    if keys[pygame.K_SPACE]:
+        drop_to_bottom(current_block)
+        fall_time = fall_speed  # force placement
+
 
 # Main game loop
 running = True
