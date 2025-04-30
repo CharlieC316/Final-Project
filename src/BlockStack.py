@@ -114,6 +114,17 @@ while running:
         drop_to_bottom(current_block)
         fall_time = fall_speed  # force placement
 
+     # Block falls
+    if fall_time > fall_speed:
+        if not check_collision(current_block, dy=1):
+            current_block.move(0, 1)
+        else:
+            # Game over check
+            if any(y <= camera_offset + 1 for _, y in current_block.get_tile_positions()):
+                print("Game Over!")
+                pygame.quit()
+                sys.exit()
+
 
 # Main game loop
 running = True
