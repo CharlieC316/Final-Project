@@ -138,3 +138,13 @@ while running:
     for block in grid:
         block.draw(screen, camera_offset)
     current_block.draw(screen, camera_offset)
+
+
+ # Score is height of tower
+    score = max(0, camera_offset * 10)
+    score_text = font.render(f"Score: {score}", True, black)
+    screen.blit(score_text, (SCREEN_WIDTH - 120, 10))
+
+    pygame.display.update()
+
+pygame.quit()
