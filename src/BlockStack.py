@@ -125,35 +125,11 @@ while running:
                 pygame.quit()
                 sys.exit()
 
-
-# Main game loop
-running = True
-while running:
-    screen.blit(backgroundImage, (0,0))
-    fall_time += clock.get_rawtime()
-    clock.tick(FPS)
-
-    # Quit event
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
- # Block falls
-    # if fall_time / 1000 > fall_speed:
-    if 0 == 0:
-        current_block.move(0, 1)
+# Lock the block
+            grid.append(current_block)
+            current_block = Block(GRID_WIDTH // 2, camera_offset)
         fall_time = 0
 
-        # Check if it hit the bottom or other blocks
-        if current_block.y * BLOCK_SIZE >= SCREEN_HEIGHT - BLOCK_SIZE:
-            grid.append(current_block)
-            current_block = Block(5, 0)
-
-    # Draw current and stacked blocks
-    for block in grid:
-        block.draw(screen)
-    current_block.draw(screen)
-
-    pygame.display.update()
-
-pygame.quit()
+# Camera follows the tallest tile
+    max_y = max((y for block in grid for _, y in block.get_tile_positions()), default=0)
+    camera_offset = max(0, max_y - (SCREEN_HEIGHT // BLOCK_SIZE) + 5)
