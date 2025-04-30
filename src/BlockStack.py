@@ -47,6 +47,10 @@ class Block:
         self.x += dx
         self.y += dy
 
+    def rotate(self):
+        if self.shape_id == 2:  # O-shape doesn't rotate
+            return
+
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, 
                          (self.x * BLOCK_SIZE, self.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
