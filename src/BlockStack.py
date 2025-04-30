@@ -74,6 +74,9 @@ class Block:
                 return True
         return False
 
+    def drop_to_bottom(block):
+    while not check_collision(block, dy=1):
+        block.move(0, 1)
 
 # Game variables
 fall_time = 0
