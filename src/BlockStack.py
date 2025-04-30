@@ -64,7 +64,17 @@ class Block:
             pygame.draw.rect(surface, self.color,
                              ((self.x + px) * BLOCK_SIZE, (self.y + py - offset_y) * BLOCK_SIZE,
                               BLOCK_SIZE, BLOCK_SIZE))
-    
+    # Collision detection
+    def check_collision(block, dx=0, dy=0):
+        for x, y in block.get_tile_positions(dx, dy):
+            if x < 0 or x >= GRID_WIDTH or y >= 100:  # 100 is soft max to allow scrolling
+                return True
+        for b in grid:
+            if (x, y) in b.get_tile_positions():
+                return True
+        return False
+
+
 # Game variables
 fall_time = 0
 fall_speed = 0.5  # blocks fall every 0.5 seconds
