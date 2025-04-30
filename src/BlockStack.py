@@ -37,9 +37,11 @@ SHAPES = {
 # Block class
 class Block:
     def __init__(self, x, y):
-        self.x = x  # grid position
+        self.x = x
         self.y = y
-        self.color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
+        self.color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
+        self.shape_id = random.randint(1, 7)
+        self.shape = SHAPES[self.shape_id]
 
     def move(self, dx, dy):
         self.x += dx
