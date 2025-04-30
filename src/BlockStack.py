@@ -133,3 +133,8 @@ while running:
 # Camera follows the tallest tile
     max_y = max((y for block in grid for _, y in block.get_tile_positions()), default=0)
     camera_offset = max(0, max_y - (SCREEN_HEIGHT // BLOCK_SIZE) + 5)
+
+# Draw blocks
+    for block in grid:
+        block.draw(screen, camera_offset)
+    current_block.draw(screen, camera_offset)
