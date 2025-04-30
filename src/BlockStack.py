@@ -50,6 +50,11 @@ class Block:
     def rotate(self):
         if self.shape_id == 2:  # O-shape doesn't rotate
             return
+        new_shape = [(-py, px) for px, py in self.shape]  # 90Â° clockwise
+        original_shape = self.shape
+        self.shape = new_shape
+        if check_collision(self):
+            self.shape = original_shape
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, 
