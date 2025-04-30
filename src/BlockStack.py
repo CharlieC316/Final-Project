@@ -56,9 +56,14 @@ class Block:
         if check_collision(self):
             self.shape = original_shape
 
+    def get_tile_positions(self, dx=0, dy=0):
+        return [(self.x + px + dx, self.y + py + dy) for px, py in self.shape]
+    
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, 
-                         (self.x * BLOCK_SIZE, self.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+        for px, py in self.shape:
+            pygame.draw.rect(surface, self.color,
+                             ((self.x + px) * BLOCK_SIZE, (self.y + py - offset_y) * BLOCK_SIZE,
+                              BLOCK_SIZE, BLOCK_SIZE))
     
 # Game variables
 fall_time = 0
