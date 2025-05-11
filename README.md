@@ -1,5 +1,7 @@
 BlockStack
 
+For my PDFA Final I made the game BlockStack.
+
 The goal of the game is to get the tower as high as possible within the time limit given to the player. IF the tower gets to high it crumbles and the player must start again getting more points.
 Each block is a different color and shape so making sure the tower is stable also helps make the tower go up as well as the points.
 
