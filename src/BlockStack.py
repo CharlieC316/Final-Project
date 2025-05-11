@@ -41,7 +41,10 @@ class Block:
         self.y = y
         self.color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
         self.shape_id = random.randint(1, 7)
-        self.shape = SHAPES[self.shape_id]
+        self.shape = SHAPES[self.shape_id]["offsets"]
+        self.blockWidth = SHAPES[self.shape_id]["width"]
+        self.blockHeight = SHAPES[self.shape_id]["height"]
+        self.rotated = False
 
     def move(self, dx, dy):
         self.x += dx
