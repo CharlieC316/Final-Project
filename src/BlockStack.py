@@ -162,10 +162,26 @@ while running:
                 
                 current_block = Block(GRID_WIDTH // 2, 0)
 
-            # Lock the block
-            grid.append(current_block)
-            current_block = Block(GRID_WIDTH // 2, camera_offset)
-        fall_time = 0
+             # Tower crumble effect
+                if tower_height >= 16 and not crumbling and len(crumble_particles) == 0:
+                    crumbling = True
+                    for block in grid:
+                        for px, py in block.get_tile_positions():
+                            screen_x = (block.x + px) * BLOCK_SIZE / 2
+                            screen_y = (block.y + py) * BLOCK_SIZE
+                            for _ in range(6):
+                                crumble_particles.append([
+                                    screen_x + random.randint(0, BLOCK_SIZE),
+                                    screen_y + random.randint(0, BLOCK_SIZE),
+                                    block.color,
+                                    0,
+                                    random.uniform(-1.5, 1.5),
+                                    random.uniform(0, 2)
+                                ])
+                    grid.clear()
+                    score += 100
+                
+            fall_time = 0
 
     # Camera follows the tallest tile
     max_y = max((y for block in grid for _, y in block.get_tile_positions()), default=0)
