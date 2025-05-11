@@ -225,6 +225,13 @@ while running:
     if crumbling and len(crumble_particles) == 0:
         crumbling = False
         tower_height = 0
+    
+    # UI elements
+    timer_text = font.render(f"Time: {int(remaining_time)}", True, red)
+    screen.blit(timer_text, timer_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT-20)))
+    score_text = font.render(f"Score: {score}", True, black)
+    screen.blit(score_text, (SCREEN_WIDTH-150, 10))
+
 
     pygame.display.update()
 
