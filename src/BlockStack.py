@@ -68,16 +68,14 @@ class Block:
     def get_tile_positions(self, dx=0, dy=0):
         return [(self.x + px + dx, self.y + py + dy) for px, py in self.shape]
 
-    def draw(self, surface, offset_y):
+    def draw(self, surface):
         for px, py in self.shape:
-            pygame.draw.rect(surface, self.color,
-                             ((self.x + px) * BLOCK_SIZE, (self.y + py - offset_y) * BLOCK_SIZE,
-                              BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(surface, self.color, ((self.x + px) * BLOCK_SIZE, (self.y + py) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
 
 # Collision detection
 def check_collision(block, dx=0, dy=0):
     for x, y in block.get_tile_positions(dx, dy):
-        if x < 0 or x >= GRID_WIDTH or y >= 100:  # 100 is soft max to allow scrolling
+        if x < 0 or x >= GRID_WIDTH or y >= SCREEN_HEIGHT // BLOCK_SIZE:
             return True
         for b in grid:
             if (x, y) in b.get_tile_positions():
