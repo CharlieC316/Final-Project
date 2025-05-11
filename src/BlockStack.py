@@ -211,7 +211,20 @@ while running:
             size
         )
 
-    
+    screen.blit(particle_surf, (particle[0]-size*2, particle[1]-size*2))
+        
+    if particle[3] > 20:
+            particle[0] += particle[4]
+            particle[1] += particle[5]
+    particle[3] += 1
+    particle[5] += 0.05
+        
+    if particle[3] > 180:
+            crumble_particles.remove(particle)
+
+    if crumbling and len(crumble_particles) == 0:
+        crumbling = False
+        tower_height = 0
 
     pygame.display.update()
 
