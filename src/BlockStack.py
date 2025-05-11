@@ -232,6 +232,20 @@ while running:
     score_text = font.render(f"Score: {score}", True, black)
     screen.blit(score_text, (SCREEN_WIDTH-150, 10))
 
+    # Game over screen
+    if game_over:
+        overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        screen.blit(overlay, (0, 0))
+        
+        texts = [
+            font.render("GAME OVER", True, white),
+            font.render(f"Final Score: {score}", True, white),
+            font.render("Press R to restart", True, white)
+        ]
+        
+        for i, text in enumerate(texts):
+            screen.blit(text, text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 - 50 + i*50)))
 
     pygame.display.update()
 
