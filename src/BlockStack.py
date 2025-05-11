@@ -82,9 +82,22 @@ def check_collision(block, dx=0, dy=0):
                 return True
     return False
 
-def drop_to_bottom(block):
-    while not check_collision(block, dy=1):
-        block.move(0, 1)
+# --- GAME STATE ---
+fall_time = 0
+fall_speed = 500
+fast_fall_speed = 150
+current_block = Block(GRID_WIDTH // 2, 0)
+grid = []
+score = 0
+tower_height = 0
+crumble_particles = []
+crumbling = False
+game_start_time = pygame.time.get_ticks()
+game_over = False
+rotate_cooldown = 200
+move_cooldown = 100
+rotate_timer = 0
+move_timer = 0
 
 # Game variables
 fall_time = 0
