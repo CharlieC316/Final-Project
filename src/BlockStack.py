@@ -53,11 +53,17 @@ class Block:
     def rotate(self):
         if self.shape_id == 2:  # O-shape doesn't rotate
             return
+        
         new_shape = [(-py, px) for px, py in self.shape]  # 90Â° clockwise
         original_shape = self.shape
         self.shape = new_shape
+        self.blockWidth, self.blockHeight = self.blockHeight, self.blockWidth
+        self.rotated = not self.rotated
+        
         if check_collision(self):
             self.shape = original_shape
+            self.blockWidth, self.blockHeight = self.blockHeight, self.blockWidth
+            self.rotated = not self.rotated
 
     def get_tile_positions(self, dx=0, dy=0):
         return [(self.x + px + dx, self.y + py + dy) for px, py in self.shape]
