@@ -4,6 +4,11 @@ import sys
 
 # Initialize pygame
 pygame.init()
+SCREEN_WIDTH, SCREEN_HEIGHT = 300, 600
+BLOCK_SIZE = 30
+GRID_WIDTH = SCREEN_WIDTH // BLOCK_SIZE
+FPS = 60
+GAME_DURATION = 60
 
 # Constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 300, 600
@@ -12,10 +17,9 @@ GRID_WIDTH = SCREEN_WIDTH // BLOCK_SIZE
 FPS = 60
 rotateBreak = 0
 
-
-# Colors & Textures
+# Colors & Assets
 white = (255, 255, 255)
-red = (255, 0, 0)
+black = (0, 0, 0)
 backgroundImage = pygame.image.load("BackgroundImage.jpg")
 
 # Set up screen
@@ -34,6 +38,7 @@ SHAPES = {
     6: [(0, 0), (-1, 0), (1, 0), (1, 1)],      # L-shape
     7: [(0, 0), (1, 0), (-1, 0), (-1, 1)],     # J-shape
 }
+
 # Block class
 class Block:
     def __init__(self, x, y):
@@ -58,23 +63,24 @@ class Block:
 
     def get_tile_positions(self, dx=0, dy=0):
         return [(self.x + px + dx, self.y + py + dy) for px, py in self.shape]
-    
-    def draw(self, surface):
+
+    def draw(self, surface, offset_y):
         for px, py in self.shape:
             pygame.draw.rect(surface, self.color,
                              ((self.x + px) * BLOCK_SIZE, (self.y + py - offset_y) * BLOCK_SIZE,
                               BLOCK_SIZE, BLOCK_SIZE))
-    # Collision detection
-    def check_collision(block, dx=0, dy=0):
-        for x, y in block.get_tile_positions(dx, dy):
-            if x < 0 or x >= GRID_WIDTH or y >= 100:  # 100 is soft max to allow scrolling
-                return True
+
+# Collision detection
+def check_collision(block, dx=0, dy=0):
+    for x, y in block.get_tile_positions(dx, dy):
+        if x < 0 or x >= GRID_WIDTH or y >= 100:  # 100 is soft max to allow scrolling
+            return True
         for b in grid:
             if (x, y) in b.get_tile_positions():
                 return True
-        return False
+    return False
 
-    def drop_to_bottom(block):
+def drop_to_bottom(block):
     while not check_collision(block, dy=1):
         block.move(0, 1)
 
@@ -95,11 +101,11 @@ while running:
 
     screen.blit(backgroundImage, (0, 0))
 
-  # Input handling
+    # Input handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         if not check_collision(current_block, dx=-1):
@@ -114,7 +120,7 @@ while running:
         drop_to_bottom(current_block)
         fall_time = fall_speed  # force placement
 
-     # Block falls
+    # Block falls
     if fall_time > fall_speed:
         if not check_collision(current_block, dy=1):
             current_block.move(0, 1)
@@ -125,22 +131,21 @@ while running:
                 pygame.quit()
                 sys.exit()
 
-# Lock the block
+            # Lock the block
             grid.append(current_block)
             current_block = Block(GRID_WIDTH // 2, camera_offset)
         fall_time = 0
 
-# Camera follows the tallest tile
+    # Camera follows the tallest tile
     max_y = max((y for block in grid for _, y in block.get_tile_positions()), default=0)
     camera_offset = max(0, max_y - (SCREEN_HEIGHT // BLOCK_SIZE) + 5)
 
-# Draw blocks
+    # Draw blocks
     for block in grid:
         block.draw(screen, camera_offset)
     current_block.draw(screen, camera_offset)
 
-
- # Score is height of tower
+    # Score is height of tower
     score = max(0, camera_offset * 10)
     score_text = font.render(f"Score: {score}", True, black)
     screen.blit(score_text, (SCREEN_WIDTH - 120, 10))
@@ -148,3 +153,4 @@ while running:
     pygame.display.update()
 
 pygame.quit()
+  
