@@ -123,35 +123,44 @@ while running:
     if remaining_time <= 0 and not game_over:
         game_over = True
 
-    # Input handling
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+     # Active game logic
+    if not game_over:
+        rotate_timer += time_passed
+        move_timer += time_passed
+        fall_time += time_passed
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        if not check_collision(current_block, dx=-1):
-            current_block.move(-1, 0)
-    if keys[pygame.K_RIGHT]:
-        if not check_collision(current_block, dx=1):
-            current_block.move(1, 0)
-    if keys[pygame.K_UP] and rotateBreak == 0:
-        current_block.rotate()
-        rotateBreak = 60
-    if keys[pygame.K_SPACE]:
-        drop_to_bottom(current_block)
-        fall_time = fall_speed  # force placement
+    speed = fast_fall_speed if keys[pygame.K_DOWN] else fall_speed
 
-    # Block falls
-    if fall_time > fall_speed:
-        if not check_collision(current_block, dy=1):
-            current_block.move(0, 1)
-        else:
-            # Game over check
-            if any(y <= camera_offset + 1 for _, y in current_block.get_tile_positions()):
-                print("Game Over!")
-                pygame.quit()
-                sys.exit()
+    if keys[pygame.K_LEFT] and move_timer >= move_cooldown:
+            if not check_collision(current_block, dx=-1):
+                current_block.move(-1, 0)
+            move_timer = 0
+
+    if keys[pygame.K_RIGHT] and move_timer >= move_cooldown:
+            if not check_collision(current_block, dx=1):
+                current_block.move(1, 0)
+            move_timer = 0
+
+    if keys[pygame.K_UP] and rotate_timer >= rotate_cooldown:
+            current_block.rotate()
+            rotate_timer = 0
+
+    
+    # Block falling
+    if fall_time >= speed:
+            if not check_collision(current_block, dy=1):
+                current_block.move(0, 1)
+            else:
+                grid.append(current_block)
+                current_max_y = min(y for block in grid for _, y in block.get_tile_positions())
+                new_height = (SCREEN_HEIGHT // BLOCK_SIZE) - current_max_y
+                
+                if new_height > tower_height:
+                    score += (new_height - tower_height) * 5
+                    tower_height = new_height
+                
+                current_block = Block(GRID_WIDTH // 2, 0)
 
             # Lock the block
             grid.append(current_block)
