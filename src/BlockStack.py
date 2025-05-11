@@ -183,19 +183,35 @@ while running:
                 
             fall_time = 0
 
-    # Camera follows the tallest tile
-    max_y = max((y for block in grid for _, y in block.get_tile_positions()), default=0)
-    camera_offset = max(0, max_y - (SCREEN_HEIGHT // BLOCK_SIZE) + 5)
+     # --- RENDERING ---
+    screen.blit(backgroundImage, (0, 0))
 
     # Draw blocks
     for block in grid:
-        block.draw(screen, camera_offset)
-    current_block.draw(screen, camera_offset)
+        block.draw(screen)
+    if not game_over:
+        current_block.draw(screen)
+    
+    # Particle effects
+    for particle in crumble_particles[:]:
+        age_ratio = particle[3] / 180
+        size = max(3, 8 - (age_ratio * 6))
+        
+        particle_surf = pygame.Surface((size*5, size*5), pygame.SRCALPHA)
+        pygame.draw.circle(
+            particle_surf,
+            (*particle[2], int(150 * (1 - age_ratio))),
+            (size*2, size*2),
+            size*1.5
+        )
+    pygame.draw.circle(
+            particle_surf,
+            (*particle[2], int(255 * (1 - age_ratio/2))),
+            (size*2, size*2),
+            size
+        )
 
-    # Score is height of tower
-    score = max(0, camera_offset * 10)
-    score_text = font.render(f"Score: {score}", True, black)
-    screen.blit(score_text, (SCREEN_WIDTH - 120, 10))
+    
 
     pygame.display.update()
 
