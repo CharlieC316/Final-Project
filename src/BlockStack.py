@@ -10,33 +10,28 @@ GRID_WIDTH = SCREEN_WIDTH // BLOCK_SIZE
 FPS = 60
 GAME_DURATION = 60
 
-# Constants
-SCREEN_WIDTH, SCREEN_HEIGHT = 300, 600
-BLOCK_SIZE = 30
-GRID_WIDTH = SCREEN_WIDTH // BLOCK_SIZE
-FPS = 60
-rotateBreak = 0
 
 # Colors & Assets
 white = (255, 255, 255)
 black = (0, 0, 0)
+red = (255, 0, 0)
 backgroundImage = pygame.image.load("BackgroundImage.jpg")
 
-# Set up screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Block Stacking Game")
 clock = pygame.time.Clock()
-font = pygame.font.SysFont("Arial", 20)
+font = pygame.font.SysFont("Arial", 30, bold=True)
 
-# Block shapes (offsets from the center)
+
+# Block shape definitions
 SHAPES = {
-    1: [(0, 0), (1, 0), (2, 0), (-1, 0)],      # I-shape
-    2: [(0, 0), (0, 1), (1, 0), (1, 1)],       # O-shape
-    3: [(0, 0), (-1, 0), (1, 0), (0, 1)],      # T-shape
-    4: [(0, 0), (-1, 0), (0, 1), (1, 1)],      # S-shape
-    5: [(0, 0), (1, 0), (0, 1), (-1, 1)],      # Z-shape
-    6: [(0, 0), (-1, 0), (1, 0), (1, 1)],      # L-shape
-    7: [(0, 0), (1, 0), (-1, 0), (-1, 1)],     # J-shape
+    1: {"offsets": [(0, 0), (1, 0), (2, 0), (-1, 0)], "width": 4, "height": 1},  # I
+    2: {"offsets": [(0, 0), (0, 1), (1, 0), (1, 1)], "width": 2, "height": 2},    # O
+    3: {"offsets": [(0, 0), (-1, 0), (1, 0), (0, 1)], "width": 3, "height": 2},   # T
+    4: {"offsets": [(0, 0), (-1, 0), (0, 1), (1, 1)], "width": 3, "height": 2},   # S
+    5: {"offsets": [(0, 0), (1, 0), (0, 1), (-1, 1)], "width": 3, "height": 2},   # Z
+    6: {"offsets": [(0, 0), (-1, 0), (1, 0), (1, 1)], "width": 3, "height": 2},   # L
+    7: {"offsets": [(0, 0), (1, 0), (-1, 0), (-1, 1)], "width": 3, "height": 2},  # J
 }
 
 # Block class
