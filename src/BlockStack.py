@@ -99,22 +99,29 @@ move_cooldown = 100
 rotate_timer = 0
 move_timer = 0
 
-# Game variables
-fall_time = 0
-fall_speed = 500  # milliseconds
-current_block = Block(GRID_WIDTH // 2, 0)
-grid = []
-score = 0
-camera_offset = 0
-
-# Game loop
+# --- MAIN GAME LOOP ---
 running = True
 while running:
     time_passed = clock.tick(FPS)
-    fall_time += time_passed
-    rotateBreak -= 1
 
-    screen.blit(backgroundImage, (0, 0))
+# Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if game_over and event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+            game_over = False
+            grid = []
+            score = 0
+            tower_height = 0
+            crumble_particles = []
+            crumbling = False
+            current_block = Block(GRID_WIDTH // 2, 0)
+            game_start_time = pygame.time.get_ticks()
+
+    # Game timer
+    remaining_time = max(0, GAME_DURATION - (pygame.time.get_ticks() - game_start_time)/1000)
+    if remaining_time <= 0 and not game_over:
+        game_over = True
 
     # Input handling
     for event in pygame.event.get():
